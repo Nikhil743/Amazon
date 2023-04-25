@@ -1,0 +1,22 @@
+i=0,j=arr2.size()-1;
+int ans=0;
+int cnt=0;
+while(i<n && j>=0){
+if(arr1[i]+arr2[j]<=MAXD){
+
+  if(arr1[i] + arr2[j] > maxTillNow){
+          cnt=1;
+          maxTillNow = arr1[i]+arr2[j];
+  }
+ else if(arr1[i]+arr2[j]==maxTillNow){
+         cnt++;
+}
+ i++;
+}
+else{
+j--;
+}
+
+cout<<cnt;
+
+}

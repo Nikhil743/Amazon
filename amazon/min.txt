@@ -1,0 +1,28 @@
+int minAbsoluteDiff(vector<int> &a , int k = 2) {
+    int n = a.size();
+    set<int>pos, curPos, minSet;
+    for (int i = 0; i < n; i++) {
+        curPos.clear();
+        curPos.insert(a[i]);
+        if (a[i] % k == 0) {
+            int cur = a[i];
+            while (cur % k == 0) {
+                curPos.insert(cur/k);
+                cur /= k;
+            }
+        } else {
+            curPos.insert(a[i] * k);
+        }
+        if (i != 0) {
+            int curMin = INT_MAX;
+            for (auto itr: curPos) {
+                if (pos.lower_bound(itr) != pos.end()) {
+                    curMin = min(curMin, abs(itr - *pos.lower_bound(itr)));
+                }
+            }
+            minSet.insert(curMin);
+        }
+        pos.insert(curPos.begin(), curPos.end());
+    }
+    return *minSet.begin();
+}

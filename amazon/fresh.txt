@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int prefix_fn(vector<string> code, vector<string> shoppingCart, int id) {
+    vector<string> ss(code);
+    ss.push_back("#");
+    ss.insert(ss.end(), shoppingCart.begin() + id, shoppingCart.end());
+    int n = ss.size(), ns = code.size();
+
+    vector<int> pi(n);
+    for (auto el : ss) cout << el << ' '; cout << endl;
+    for (int i = 1; i < n; i++) {
+        int j = pi[i-1];
+        while (j > 0 and (ss[j] != "anything" and ss[i] != ss[j])) j = pi[j-1];
+        if (ss[i] == ss[j] or ss[j] == "anything") j++;
+        pi[i] = j;
+        if (j == ns) return i - ns;
+    }
+
+    return -1;
+}
+
+int main() {
+    vector<vector<string>> codeList = {{"apple", "apple", "banana"}};
+    vector<string> shoppingCart = {"apple", "apple", "apple", "banana"};
+    ;
+
+    int id = 0;
+    for (auto code : codeList) {
+        id = prefix_fn(code, shoppingCart, id);
+        if (id == -1) {
+            cout << "Not Possible\n";
+            return 0;
+        }
+    }
+
+    cout << "Possible\n";
+
+    return 0;
+}

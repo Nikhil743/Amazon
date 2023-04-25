@@ -1,0 +1,29 @@
+vector<int> dp ;
+vector<vector<int>> gcd ;
+
+long long f(vector<int> &A,int round=1,long long mask=0){
+   long long ans = 0 ;
+if (dp[mask]!=-1) return dp[mask] ;
+   for (int i=0;i<A.size();i++){
+      if ((mask & 1<<i) == 0){
+         mask = mask | 1<<i ;
+         for (int j=i+1;j<A.size();j++){
+            if ((mask & 1<<j) == 0){
+               ans = max(ans,(gcd[i][j]*round) + f(A,round+1,mask | 1<<j)) ;
+            }
+         }
+         mask = (mask ^ 1<<i );
+      }
+   }
+   return dp[mask] = ans ;
+}
+long long solve (int N, vector<int> A) {
+   gcd.resize(2*N,vector<int>(2*N)) ;
+   dp.resize(1<<20,-1) ;
+  for (int i=0;i<2*N;i++){
+     for (int j=i;j<2*N;j++){
+        gcd[i][j] = __gcd(A[i],A[j]) ; gcd[j][i] = gcd[i][j] ;
+     }
+  }
+  return f(A) ;
+}
